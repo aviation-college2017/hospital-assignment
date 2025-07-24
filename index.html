@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pharmacy TVT Hospital Assignment</title>
+  <title>Hospital Registration Portal</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -11,61 +11,70 @@
     <header>
       <img src="logo.png" alt="College Logo" class="logo"/>
       <h1>NATIONAL AVIATION COLLEGE</h1>
-      <p>Pharmacy TVT - Batch 2016</p>
+      <p>Pharmacy TVT, Batch 2016 - Hospital Assignment</p>
     </header>
 
-    <form id="assignmentForm">
-      <h2>Register for Hospital Assignment</h2>
+    <form id="registrationForm">
+      <label>Full Name:</label>
+      <input type="text" name="fullname" required />
 
-      <label>Full Name</label>
-      <input type="text" name="name" required />
+      <label>ID Number:</label>
+      <input type="text" name="idnumber" required />
 
-      <label>ID Number</label>
-      <input type="text" name="id" required />
-
-      <label>Telegram Username / Phone Number</label>
+      <label>Telegram Username or Phone:</label>
       <input type="text" name="telegram" required />
 
-      <label>Location</label>
+      <label>Location:</label>
       <input type="text" name="location" required />
 
-      <label>Preferred Hospital 1</label>
-      <input type="text" name="choice1" required />
+      <label>Select 3 Hospital Choices:</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="hospital" value="Hospital A" /> Hospital A</label>
+        <label><input type="checkbox" name="hospital" value="Hospital B" /> Hospital B</label>
+        <label><input type="checkbox" name="hospital" value="Hospital C" /> Hospital C</label>
+        <label><input type="checkbox" name="hospital" value="Hospital D" /> Hospital D</label>
+        <label><input type="checkbox" name="hospital" value="Hospital E" /> Hospital E</label>
+      </div>
 
-      <label>Preferred Hospital 2</label>
-      <input type="text" name="choice2" required />
-
-      <label>Preferred Hospital 3</label>
-      <input type="text" name="choice3" required />
-
-      <label>Language</label>
+      <label>Language:</label>
       <select name="language">
-        <option value="en">English</option>
-        <option value="am">አማርኛ</option>
+        <option value="English">English</option>
+        <option value="Amharic">Amharic</option>
       </select>
 
-      <button type="submit">Submit</button>
+      <button type="submit">Register</button>
     </form>
 
-    <div id="response"></div>
+    <div id="responseMessage"></div>
   </div>
 
   <script>
-    const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL'; // replace with your deployed Google Apps Script URL
-
-    document.getElementById('assignmentForm').addEventListener('submit', async e => {
+    const form = document.getElementById("registrationForm");
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const form = e.target;
-      const data = new FormData(form);
-      const responseDiv = document.getElementById('response');
 
-      const response = await fetch(scriptURL, {
-        method: 'POST',
-        body: data
+      const formData = new FormData(form);
+      const selected = [...form.querySelectorAll('input[name="hospital"]:checked')];
+
+      if (selected.length !== 3) {
+        alert("❌ Please select exactly 3 hospitals.");
+        return;
+      }
+
+      formData.append("choice1", selected[0].value);
+      formData.append("choice2", selected[1].value);
+      formData.append("choice3", selected[2].value);
+
+      // Remove hospital group from sending
+      formData.delete("hospital");
+
+      const response = await fetch("YOUR_GOOGLE_SCRIPT_URL", {
+        method: "POST",
+        body: formData
       });
 
-      const text = await response.text();
-      responseDiv.innerHTML = <p>${text}</p>;
+      const result = await response.text();
+      document.getElementById("responseMessage").innerText = result;
       form.reset();
     });
   </script>
