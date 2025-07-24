@@ -1,85 +1,76 @@
 body {
   font-family: 'Segoe UI', sans-serif;
   background: #f0f4f8;
+  color: #222;
   margin: 0;
   padding: 0;
-  color: #333;
 }
 
 .container {
-  max-width: 600px;
-  margin: auto;
-  padding: 2rem;
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
   background: white;
-  border-radius: 15px;
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  margin-top: 2rem;
+  border-radius: 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .logo {
   max-width: 100px;
-  display: block;
-  margin: auto;
-}
-
-header, footer {
-  text-align: center;
+  margin-bottom: 10px;
 }
 
 h1 {
-  font-size: 1.8rem;
-  color: #005eb8;
+  font-size: 22px;
+  margin: 5px 0;
 }
 
-h2 {
-  font-size: 1rem;
-  font-weight: 400;
+p {
+  font-size: 14px;
+  color: #666;
 }
 
-.tagline {
-  font-size: 0.9rem;
-  color: #777;
+form {
+  display: flex;
+  flex-direction: column;
 }
 
 label {
-  display: block;
-  margin-top: 1rem;
-  font-size: 0.9rem;
+  margin-top: 10px;
+  font-weight: 600;
 }
 
-input[type="text"] {
-  width: 100%;
-  padding: 0.7rem;
-  margin-top: 0.3rem;
-  border: 1px solid #ccc;
+input, select {
+  padding: 10px;
   border-radius: 8px;
-  font-size: 0.9rem;
-}
-
-.checkboxes label {
-  display: block;
-  margin-top: 0.5rem;
+  border: 1px solid #ccc;
+  margin-top: 5px;
 }
 
 button {
-  margin-top: 1.5rem;
-  padding: 0.9rem 1.5rem;
-  width: 100%;
-  background-color: #005eb8;
+  margin-top: 20px;
+  padding: 12px;
+  background: #6c5ce7;
   color: white;
+  font-weight: bold;
   border: none;
   border-radius: 10px;
-  font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: 0.3s;
 }
 
 button:hover {
-  background-color: #004b94;
+  background: #5a4dcf;
 }
 
-footer {
-  font-size: 0.8rem;
-  color: #555;
-  margin-top: 2rem;
+#response {
+  margin-top: 20px;
+  font-weight: bold;
+  color: #00b894;
+  text-align: center;
 }
