@@ -1,7 +1,7 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f0f4f8;
-  color: #222;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(145deg, #fdfbfb, #ebedee);
+  color: #333;
   margin: 0;
   padding: 0;
 }
@@ -9,68 +9,80 @@ body {
 .container {
   max-width: 500px;
   margin: 40px auto;
-  padding: 20px;
+  padding: 2rem;
   background: white;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  border-radius: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
 }
 
 header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .logo {
-  max-width: 100px;
+  width: 80px;
   margin-bottom: 10px;
 }
 
 h1 {
-  font-size: 22px;
-  margin: 5px 0;
+  font-size: 1.4rem;
+  margin: 0;
 }
 
 p {
-  font-size: 14px;
-  color: #666;
+  font-size: 0.95rem;
+  color: #555;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  margin-top: 10px;
+form label {
+  display: block;
+  margin-top: 1rem;
   font-weight: 600;
 }
 
-input, select {
+input[type="text"],
+select {
+  width: 100%;
   padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
   margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.checkbox-group label {
+  flex: 1 1 45%;
+  font-weight: 500;
 }
 
 button {
-  margin-top: 20px;
-  padding: 12px;
-  background: #6c5ce7;
+  margin-top: 1.5rem;
+  width: 100%;
+  background: #4f46e5;
   color: white;
-  font-weight: bold;
   border: none;
+  padding: 12px;
   border-radius: 10px;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background 0.3s ease;
 }
 
 button:hover {
-  background: #5a4dcf;
+  background: #3730a3;
 }
 
-#response {
-  margin-top: 20px;
+#responseMessage {
+  margin-top: 1.2rem;
   font-weight: bold;
-  color: #00b894;
   text-align: center;
+  color: green;
 }
