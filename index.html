@@ -1,136 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Hospital Assignment Registration</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f0f2f5;
-      display: flex;
-      justify-content: center;
-      padding: 2rem;
-    }
-    .form-container {
-      background: white;
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-      max-width: 450px;
-      width: 100%;
-    }
-    h2 {
-      text-align: center;
-      color: #4a4a4a;
-    }
-    label {
-      font-weight: 600;
-      margin-top: 1rem;
-      display: block;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 12px;
-      margin-top: 0.3rem;
-    }
-    .hospital-options {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      margin-top: 0.5rem;
-    }
-    button {
-      margin-top: 1.5rem;
-      width: 100%;
-      background-color: #6C63FF;
-      color: white;
-      border: none;
-      padding: 12px;
-      font-weight: bold;
-      border-radius: 12px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #5848e5;
-    }
-    .note {
-      font-size: 0.9em;
-      color: gray;
-      margin-top: 0.5rem;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pharmacy TVT Hospital Assignment</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="form-container">
-    <h2>Hospital Registration</h2>
-    <form id="registrationForm">
-      <label for="fullName">Full Name</label>
-      <input type="text" name="fullName" required>
+  <div class="container">
+    <header>
+      <img src="logo.png" alt="College Logo" class="logo"/>
+      <h1>NATIONAL AVIATION COLLEGE</h1>
+      <p>Pharmacy TVT - Batch 2016</p>
+    </header>
 
-      <label for="idNumber">ID Number</label>
-      <input type="text" name="idNumber" required>
+    <form id="assignmentForm">
+      <h2>Register for Hospital Assignment</h2>
 
-      <label for="telegram">Telegram or Phone</label>
-      <input type="text" name="telegram" required>
+      <label>Full Name</label>
+      <input type="text" name="name" required />
 
-      <label for="location">Location</label>
-      <input type="text" name="location" required>
+      <label>ID Number</label>
+      <input type="text" name="id" required />
 
-      <label>Choose 3 Hospitals</label>
-      <div class="hospital-options">
-        <label><input type="checkbox" name="hospital" value="Hospital A"> Hospital A</label>
-        <label><input type="checkbox" name="hospital" value="Hospital B"> Hospital B</label>
-        <label><input type="checkbox" name="hospital" value="Hospital C"> Hospital C</label>
-        <label><input type="checkbox" name="hospital" value="Hospital D"> Hospital D</label>
-        <label><input type="checkbox" name="hospital" value="Hospital E"> Hospital E</label>
-      </div>
-      <div class="note">Select exactly 3 hospitals.</div>
+      <label>Telegram Username / Phone Number</label>
+      <input type="text" name="telegram" required />
 
-      <button type="submit">Register</button>
+      <label>Location</label>
+      <input type="text" name="location" required />
+
+      <label>Preferred Hospital 1</label>
+      <input type="text" name="choice1" required />
+
+      <label>Preferred Hospital 2</label>
+      <input type="text" name="choice2" required />
+
+      <label>Preferred Hospital 3</label>
+      <input type="text" name="choice3" required />
+
+      <label>Language</label>
+      <select name="language">
+        <option value="en">English</option>
+        <option value="am">አማርኛ</option>
+      </select>
+
+      <button type="submit">Submit</button>
     </form>
-    <div id="result" style="margin-top:1rem; text-align:center;"></div>
+
+    <div id="response"></div>
   </div>
-<div style="text-align:center; margin-bottom:1rem;">
-  <img src="logo.png" alt="NAC Logo" style="max-width:100px;" />
-  <h1 style="margin:0; font-size:1.5rem; color:#4a4a4a;">National Aviation College</h1>
-  <h2 style="margin:0; font-size:1rem; color:#777;">Pharmacy TVT - Batch 2016</h2>
-</div>
+
   <script>
-    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL'; // replace with your deployed Google Apps Script URL
+
+    document.getElementById('assignmentForm').addEventListener('submit', async e => {
       e.preventDefault();
-
       const form = e.target;
-      const selected = [...form.querySelectorAll('input[name="hospital"]:checked')];
+      const data = new FormData(form);
+      const responseDiv = document.getElementById('response');
 
-      if (selected.length !== 3) {
-        alert("Please select exactly 3 hospital choices.");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("fullName", form.fullName.value);
-      formData.append("idNumber", form.idNumber.value);
-      formData.append("telegram", form.telegram.value);
-      formData.append("location", form.location.value);
-      formData.append("choice1", selected[0].value);
-      formData.append("choice2", selected[1].value);
-      formData.append("choice3", selected[2].value);
-
-      fetch("https://script.google.com/macros/s/AKfycbyfqWt-nNPqZQcB3QN2SPtuUubCbnbfSHnMfApJxuStw6Tur6DLfNp8weXyymNfmuRwzQ/exec", {
-        method: "POST",
-        body: formData
-      })
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById('result').innerText = data;
-        form.reset();
-      })
-      .catch(err => {
-        document.getElementById('result').innerText = "Error submitting form. Please try again.";
+      const response = await fetch(scriptURL, {
+        method: 'POST',
+        body: data
       });
+
+      const text = await response.text();
+      responseDiv.innerHTML = <p>${text}</p>;
+      form.reset();
     });
   </script>
 </body>
