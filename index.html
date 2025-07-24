@@ -1,48 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NAC Hospital Assignment</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Hospital Assignment Registration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .form-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      max-width: 450px;
+      width: 100%;
+    }
+    h2 {
+      text-align: center;
+      color: #4a4a4a;
+    }
+    label {
+      font-weight: 600;
+      margin-top: 1rem;
+      display: block;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      margin-top: 0.3rem;
+    }
+    .hospital-options {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-top: 0.5rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      background-color: #6C63FF;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-weight: bold;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #5848e5;
+    }
+    .note {
+      font-size: 0.9em;
+      color: gray;
+      margin-top: 0.5rem;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <img src="logo.png" alt="National Aviation College Logo" class="logo" />
-      <h1>National Aviation College</h1>
-      <h2>Pharmacy TVT | Batch 2016</h2>
-      <p class="tagline">Hospital Assignment Registration</p>
-    </header>
-
-    <form action="https://script.google.com/macros/s/AKfycbyfqWt-nNPqZQcB3QN2SPtuUubCbnbfSHnMfApJxuStw6Tur6DLfNp8weXyymNfmuRwzQ/exec" method="POST" class="form">
+  <div class="form-container">
+    <h2>Hospital Registration</h2>
+    <form id="registrationForm">
       <label for="fullName">Full Name</label>
-      <input type="text" id="fullName" name="Full Name" required />
+      <input type="text" name="fullName" required>
 
-      <label for="studentId">ID Number</label>
-      <input type="text" id="studentId" name="ID Number" required />
+      <label for="idNumber">ID Number</label>
+      <input type="text" name="idNumber" required>
 
-      <label for="telegram">Telegram Username or Phone</label>
-      <input type="text" id="telegram" name="Telegram" required />
+      <label for="telegram">Telegram or Phone</label>
+      <input type="text" name="telegram" required>
 
-      <label for="location">Location (City/Area)</label>
-      <input type="text" id="location" name="Location" required />
+      <label for="location">Location</label>
+      <input type="text" name="location" required>
 
-      <p>Choose up to 3 hospitals you prefer:</p>
-      <div class="checkboxes">
-        <label><input type="checkbox" name="Choice" value="Minilk Hospital" /> Minilk Hospital</label>
-        <label><input type="checkbox" name="Choice" value="St. Peter’s Specialized Hospital" /> St. Peter’s Hospital</label>
-        <label><input type="checkbox" name="Choice" value="Yekatit Hospital" /> Yekatit 12 Hospital</label>
-        <label><input type="checkbox" name="Choice" value="Ras Desta Hospital" /> Ras Desta Hospital</label>
-        <label><input type="checkbox" name="Choice" value="Torhayloch Hospital" /> Torhayloch Hospital</label>
+      <label>Choose 3 Hospitals</label>
+      <div class="hospital-options">
+        <label><input type="checkbox" name="hospital" value="Hospital A"> Hospital A</label>
+        <label><input type="checkbox" name="hospital" value="Hospital B"> Hospital B</label>
+        <label><input type="checkbox" name="hospital" value="Hospital C"> Hospital C</label>
+        <label><input type="checkbox" name="hospital" value="Hospital D"> Hospital D</label>
+        <label><input type="checkbox" name="hospital" value="Hospital E"> Hospital E</label>
       </div>
+      <div class="note">Select exactly 3 hospitals.</div>
 
       <button type="submit">Register</button>
     </form>
-
-    <footer>
-      <p>Powered by <strong>NAC</strong> | Contact: collegenationalaviation@gmail.com</p>
-    </footer>
+    <div id="result" style="margin-top:1rem; text-align:center;"></div>
   </div>
+
+  <script>
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const selected = [...form.querySelectorAll('input[name="hospital"]:checked')];
+
+      if (selected.length !== 3) {
+        alert("Please select exactly 3 hospital choices.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("fullName", form.fullName.value);
+      formData.append("idNumber", form.idNumber.value);
+      formData.append("telegram", form.telegram.value);
+      formData.append("location", form.location.value);
+      formData.append("choice1", selected[0].value);
+      formData.append("choice2", selected[1].value);
+      formData.append("choice3", selected[2].value);
+
+      fetch("https://script.google.com/macros/s/AKfycbyfqWt-nNPqZQcB3QN2SPtuUubCbnbfSHnMfApJxuStw6Tur6DLfNp8weXyymNfmuRwzQ/exec", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('result').innerText = data;
+        form.reset();
+      })
+      .catch(err => {
+        document.getElementById('result').innerText = "Error submitting form. Please try again.";
+      });
+    });
+  </script>
 </body>
 </html>
